@@ -2,10 +2,7 @@ package br.com.java8plus.lambda;
 
 import br.com.java8plus.lambda.domain.Person;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -59,6 +56,17 @@ public class LambdaWithCollections {
 
         // Dinamic Method (Predicate) with lambda
         printNumberWithDinamicMethodAndLambda();
+
+        // Another example
+        List<Person> listOfAdult = peopleList.stream()
+                .filter(new Predicate<Person>() {
+                    @Override
+                    public boolean test(Person person) {
+                        return person.getAge() > 18;
+                    }
+                }).collect(Collectors.toList());
+        System.out.println("The list have: " + listOfAdult.size() + " adult(s)");
+
     }
 
     private static void orderListWithoutLambda() {
@@ -67,7 +75,7 @@ public class LambdaWithCollections {
 
         Collections.sort(peopleList, new Comparator<Person>() {
             @Override
-            public int compare(Person person1, Person person2){
+            public int compare(Person person1, Person person2) {
                 return person1.getName().compareTo(person2.getName());
             }
         });
@@ -76,7 +84,7 @@ public class LambdaWithCollections {
         System.out.println("Ordering person by age:");
         Collections.sort(peopleList, new Comparator<Person>() {
             @Override
-            public int compare(Person person1, Person person2){
+            public int compare(Person person1, Person person2) {
                 return person1.getAge().compareTo(person2.getAge());
             }
         });
@@ -102,33 +110,32 @@ public class LambdaWithCollections {
         List<Integer> list = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12);
 
         System.out.println("Print all numbers:");
-        dinamicMethodVerifyExpression(list, (n)->true);
+        dinamicMethodVerifyExpression(list, (n) -> true);
 
         System.out.println("No print numbers:");
-        dinamicMethodVerifyExpression(list, (n)->false);
+        dinamicMethodVerifyExpression(list, (n) -> false);
 
         System.out.println("Print just pair numbers:");
-        dinamicMethodVerifyExpression(list, (n)-> n%2 == 0 );
+        dinamicMethodVerifyExpression(list, (n) -> n % 2 == 0);
 
         System.out.println("Print just odd numbers:");
-        dinamicMethodVerifyExpression(list, (n)-> n%2 == 1 );
+        dinamicMethodVerifyExpression(list, (n) -> n % 2 == 1);
 
         System.out.println("Print numbers bigger 5:");
-        dinamicMethodVerifyExpression(list, (n)-> n > 5 );
+        dinamicMethodVerifyExpression(list, (n) -> n > 5);
 
         System.out.println("Print numbers bigger 5 and lesser 10:");
-        dinamicMethodVerifyExpression(list, (n)-> n > 5 && n < 10);
+        dinamicMethodVerifyExpression(list, (n) -> n > 5 && n < 10);
 
     }
 
     public static void dinamicMethodVerifyExpression(List<Integer> list, Predicate<Integer> predicate) {
         list.forEach(n -> {
-            if(predicate.test(n)) {
+            if (predicate.test(n)) {
                 System.out.println(n + " ");
             }
         });
     }
-
 
     private static List<Person> getPeople() {
         return Arrays.asList(Person.builder().name("Eduardo").age(29).build(),
